@@ -11,8 +11,6 @@ class FeedList extends StatefulWidget {
 }
 
 class _FeedListState extends State<FeedList> {
-  int numComments;
-  int numRetweets;
   int numLikes = 0;
   @override
   Widget build(BuildContext context) {
@@ -34,14 +32,28 @@ class _FeedListState extends State<FeedList> {
                 MaterialPageRoute(builder: (context) => Profile()),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'J.F.',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
         Flexible(
           child: Column(
             children: <Widget>[
+              Text(
+                'How Flutter Works!',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              SizedBox(
+                height: 5,
+              ),
               GestureDetector(
                 child: Container(
-                  height: 200,
+                  height: 150,
                   width: 250,
                   decoration: BoxDecoration(
                     image: DecorationImage(

@@ -7,7 +7,9 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  String videoId;
+  String videoId = YoutubePlayer.convertUrlToId(
+      "https://www.youtube.com/watch?v=fUv9gO8t8b4");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +20,64 @@ class _VideoPlayerState extends State<VideoPlayer> {
         child: Column(
           children: [
             video(),
-            SingleChildScrollView(child: comments()),
+            comments(),
+            SizedBox(
+              height: 25,
+            ),
+            otherVideos(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget video() {
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        showVideoProgressIndicator: true,
+        progressColors: ProgressBarColors(
+            playedColor: Colors.amber, handleColor: Colors.amberAccent),
+      ),
+      builder: (context, player) {
+        return Container(child: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+          if (orientation == Orientation.landscape) {
+            return Scaffold(
+              body: Container(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: YoutubePlayer(
+                      controller: _controller,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              child: Align(
+                alignment: Alignment.center,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: YoutubePlayer(
+                    controller: _controller,
+                  ),
+                ),
+              ),
+            );
+          }
+        }));
+      },
     );
   }
 
@@ -30,7 +86,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       child: ExpansionTile(
         leading: Icon(
           Icons.comment,
-          color: Colors.pinkAccent,
+          color: Colors.lightGreen,
         ),
         title: Text(
           'Reviews',
@@ -42,7 +98,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
                   ),
               shrinkWrap: true,
               itemCount: 10,
-              itemBuilder: (_, i) {
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
                 return Row(
                   children: [
                     Column(
@@ -67,28 +124,48 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
   }
 
-  Widget video() {
-    videoId = YoutubePlayer.convertUrlToId(
-        "https://www.youtube.com/watch?v=fUv9gO8t8b4");
-    YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
+  Widget otherVideos() {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            'Recommended Videos',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              separatorBuilder: (context, index) => Divider(
+                    color: Colors.black,
+                    thickness: 2,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  child: GestureDetector(
+                    child: Container(
+                      height: 200,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            'images/thumb.jpg',
+                          ),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+        ],
       ),
-    );
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressColors: ProgressBarColors(
-            playedColor: Colors.amber, handleColor: Colors.amberAccent),
-      ),
-      builder: (context, player) {
-        return Container(
-          child: player,
-        );
-      },
     );
   }
 }
