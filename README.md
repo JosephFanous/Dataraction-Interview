@@ -1,3 +1,3 @@
-# social
+# Social Application
 
 A feed generator
