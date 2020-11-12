@@ -6,6 +6,7 @@ class Feed extends StatefulWidget {
   _FeedState createState() => _FeedState();
 }
 
+//Pulls from from feed_builder and puts it in a listview to get multiple posts
 class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {

@@ -20,6 +20,7 @@ class _FeedListState extends State<FeedList> {
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
         Column(
           children: <Widget>[
+            SizedBox(height: 35),
             GestureDetector(
               child: CircleAvatar(
                 backgroundImage: AssetImage(
@@ -108,6 +109,7 @@ class _FeedListState extends State<FeedList> {
     );
   }
 
+  //Displays a dialog when you press the share button
   Future<Widget> _share() async {
     return showDialog(
         context: context,
@@ -166,6 +168,7 @@ class _FeedListState extends State<FeedList> {
         });
   }
 
+  //Increments number when you press like
   void _favorite() {
     numLikes += 1;
   }

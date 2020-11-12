@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -31,6 +32,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
   }
 
+
+  //Builds Youtube video and if its Landscape, it should be able to re-scale but not working
   Widget video() {
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: videoId,
@@ -81,6 +84,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
   }
 
+  //Comment section to the video being watched
+
   Widget comments() {
     return Card(
       child: ExpansionTile(
@@ -89,7 +94,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           color: Colors.lightGreen,
         ),
         title: Text(
-          'Reviews',
+          'Comments',
         ),
         children: [
           ListView.separated(
@@ -109,6 +114,20 @@ class _VideoPlayerState extends State<VideoPlayer> {
                             'images/user.png',
                           ),
                         ),
+                        Text('J.F.'),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: FaIcon(FontAwesomeIcons.thumbsUp, size: 15),
+                              onPressed: () => print('Like'),
+                            ),
+                            IconButton(
+                              icon:
+                                  FaIcon(FontAwesomeIcons.thumbsDown, size: 15),
+                              onPressed: () => print('Dislike'),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(width: 10),
@@ -124,6 +143,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
   }
 
+  //Builds a recommended video list based off the tags within the video
+  //you are currently watching and have watched in the past
   Widget otherVideos() {
     return Container(
       child: Column(
